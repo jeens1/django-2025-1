@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block main-area %}
+
+<!--# //크로스 사이트 리퀘버리 포저리 사용자가 자신의 의지와는 무관하게-->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ postform }}
+        <input type="submit">
+
+
+
+
+    </form>
+
+
+{% endblock %}
+{% blcok header %}
+    <h1>wrtting page</h1>
+{% endblock %}

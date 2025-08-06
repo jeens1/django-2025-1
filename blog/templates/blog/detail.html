@@ -1,0 +1,90 @@
+{% extends 'blog/base.html' %}
+{% block main-area %}
+    <!-- Post content-->
+    <article>
+        <!-- Post header-->
+        <header class="mb-4">
+            <!-- Post title-->
+            <h1 class="fw-bolder mb-1"> {{ post.title }}</h1>
+            <!-- Post meta content-->
+            <div class="text-muted fst-italic mb-2">Posted on {{ post.created_date}} by {{ post.author }}</div>
+            <!-- Post categories-->
+            <!-- 카테고리는 있기도 하고, 없기도 한다. -->
+            {%  if post.category %}
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">
+                    {{ post.category.name }}
+                </a>
+            {% else %}
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">
+                   미분류
+                </a>
+            {% endif %}
+        </header>
+        <!-- Preview image figure-->
+        <figure class="mb-4">
+            {% if post.uploaded_image %}
+                <img class="img-fluid rounded"
+                 src={{ post.uploaded_image.url }} alt="..." />
+            {% else %}
+                <img class="img-fluid rounded"
+                 src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." />
+            {% endif %}
+        </figure>
+        <!-- Post content-->
+        <section class="mb-5">
+             <p class="fs-5 mb-4"> {{ post.content}}</p>
+        </section>
+        {% if post.uploaded_file %}
+            <a href={{ post.uploaded_file.url }}><h3>Download</h3></a>
+        {% endif %}
+    </article>
+
+    <!-- Comments section-->
+    <section class="mb-5">
+        <div class="card bg-light">
+            <div class="card-body">
+                <!-- Comment form-->
+                <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
+                <!-- Comment with nested comments-->
+                <div class="d-flex mb-4">
+                    <!-- Parent comment-->
+                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                    <div class="ms-3">
+                        <div class="fw-bold">Commenter Name</div>
+                        If you`'re going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
+                        <!-- Child comment 1-->
+                        <div class="d-flex mt-4">
+                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Commenter Name</div>
+                                And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+                            </div>
+                        </div>
+                        <!-- Child comment 2-->
+                        <div class="d-flex mt-4">
+                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                            <div class="ms-3">
+                                <div class="fw-bold">Commenter Name</div>
+                                When you put money directly to a problem, it makes a good headline.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Single comment-->
+                <div class="d-flex">
+                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                    <div class="ms-3">
+                        <div class="fw-bold">Commenter Name</div>
+                        When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block header %}
+    <h1 class="fw-bolder">Detail Page</h1>
+    <p class="lead mb-0">Detail Page</p>
+{% endblock %}
