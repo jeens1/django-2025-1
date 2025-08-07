@@ -19,7 +19,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-import blog
 
 # http://127.0.0.1:8000/   이것 이후에[ 쓰는것
 #http://127.0.0.1:8000/admin -> admin -> site-> urls
@@ -30,6 +29,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('', include('single_pages.urls')),
+    path('example/', include('example.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

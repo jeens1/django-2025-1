@@ -1,6 +1,6 @@
 
 from django import forms
-from blog.models import Post
+from blog.models import Post, Comment
 class PostForm(forms.ModelForm):
     class Meta:
             model=Post
@@ -10,3 +10,7 @@ class PostForm(forms.ModelForm):
                     'uploaded_image',
                     'category',
                     'uploaded_file']
+class CommentForm(forms.ModelForm):
+        class Meta:
+                model=Comment
+                fields=['author','content']

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Ajax</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<script>
+    // CSRF 토큰 가져오기
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    // 페이지 로드 시 글 목록 불러오기
+    $(document).ready(function(){
+        getPostlist();
+
+        // 글 작성 버튼 클릭 이벤트
+        $('#postAddBtn').click(function(e){
+            e.preventDefault(); // 폼 새로고침 방지
+            const post = {
+                title: $('#title').val(),
+                author: $('#author').val(),
+                content: $('#content').val()
+            };
+
+            $.ajax({
+                url: "{% url 'blogapi' %}",
+                type: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(post),
+                headers: {'X-CSRFToken': csrftoken},
+                success: function(){
+                    alert("새글 작성 성공");
+                    $('#postlist').empty();
+                    getPostlist(); // 목록 새로고침
+                },
+                error: function(){
+                    alert("새글 작성 실패");
+                }
+            });
+        });
+    });
+
+    // 게시글 목록 불러오기
+    function getPostlist(){
+        $.ajax({
+            url: "{% url 'blogapi' %}",
+            type: "GET",
+            success: function(data) {
+                console.log(data);
+                let list = data;
+                $(list).each(function(){
+                    let str = '<hr><div>';
+                    str += this.title + " ====== ";
+                    str += this.author + " ====== ";
+                    str += this.content;
+                    str += '</div>';
+                    $('#postlist').append(str);
+                });
+                alert("전체 글 불러오기 성공");
+            },
+            error: function(){
+                alert("전체 글 불러오기 실패");
+            }
+        });
+    }
+</script>
+
+<h3>새글 작성</h3>
+<form>
+    <input type="text" id="title" placeholder="title" required><br>
+    <input type="text" id="author" placeholder="author" required><br>
+    <input type="text" id="content" placeholder="content" required><br>
+    <input type="button" id="postAddBtn" value="글 작성">
+</form>
+
+<div id="result"></div>
+<h1>글 목록입니다.</h1>
+<div id="postlist"></div>
+
+</body>
+</html>
